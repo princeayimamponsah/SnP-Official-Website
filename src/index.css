@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Shared layout variables */
+:root {
+  --nav-height: 64px; /* adjust if your navbar height changes */
+  --hero-offset: 24px; /* extra spacing to shift landing page down a bit */
+  --section-gap: 0; /* vertical space between page sections - set to 0 to remove gaps */
+}
+
+/* apply the nav height to the site nav */
+.site-nav {
+  height: var(--nav-height);
+}
+
+/* ensure all page content starts below the fixed navbar + extra offset */
+.site-main {
+  padding-top: calc(var(--nav-height) + var(--hero-offset));
+}
+
+/* keep hero at full viewport minus nav + offset */
+#hero {
+  min-height: calc(100vh - calc(var(--nav-height) + var(--hero-offset)));
+}
+
+/* global spacing between sections inside the main container
+   avoids adding margin-top to every component individually */
+.site-main > * + * {
+  margin-top: var(--section-gap);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* no section gap on mobile either (sections sit flush) */
+/* make slick list let arrows be visible outside the slide */
+.slick-list,
+.slick-slider {
+  overflow: visible !important;
+}
+
+/* hide default font-based arrow pseudo-elements (we use custom icons) */
+.slick-prev:before,
+.slick-next:before {
+  display: none !important;
+}
+
+/* make sure arrows sit above everything */
+.slick-arrow {
+  z-index: 60 !important;
+}
+
+/* optional: nicer placement if default positions are off */
+.slick-prev {
+  left: 18px !important;
+}
+.slick-next {
+  right: 18px !important;
+}
+
+/* dots tweaks (since you asked earlier) */
+.slick-dots {
+  /* move dots up a bit from the bottom of the hero */
+  bottom: 56px !important;
+}
+
+@media (max-width: 640px) {
+  /* on small screens keep dots a little closer to the content */
+  .slick-dots { bottom: 36px !important; }
+}
+.slick-dots li button:before {
+  font-size: 14px !important;
+  color: white !important;
+  opacity: 0.75;
+}
+.slick-dots li.slick-active button:before {
+  font-size: 16px !important;
+  color: #000 !important;
+  opacity: 1;
+}
