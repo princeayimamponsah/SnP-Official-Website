@@ -1,13 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useCart } from "../hooks/useCart";
+
 
 const Cart = () => {
   const navigate = useNavigate();
+  const { cart, removeFromCart, clearCart } = useCart();
 
-  // 🧺 Temporary empty cart (no CartContext used)
-  const cart = [];
-
-  // 💵 Temporary subtotal (0 since no items)
   const subtotal = cart.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
@@ -33,6 +32,7 @@ const Cart = () => {
                 <div className="flex items-center space-x-4">
                   <p>${(item.price * item.quantity).toFixed(2)}</p>
                   <button
+                    onClick={() => removeFromCart(item.id)}
                     className="text-red-500 text-sm hover:underline"
                   >
                     Remove
@@ -42,13 +42,26 @@ const Cart = () => {
             ))}
           </div>
 
-          <div className="mt-6 flex justify-between text-lg font-semibold">
-            <span>Subtotal:</span>
-            <span>${subtotal.toFixed(2)}</span>
+          <div className="mt-6 space-y-2">
+            <div className="flex justify-between text-lg font-medium">
+              <span>Subtotal:</span>
+              <span>₵{subtotal.toFixed(2)}</span>
+            </div>
+
+            <div className="flex justify-between text-base text-gray-600">
+              <span>Transaction charge (10%):</span>
+              <span>₵{(subtotal * 0.1).toFixed(2)}</span>
+            </div>
+
+            <div className="flex justify-between text-xl font-semibold mt-2">
+              <span>Total:</span>
+              <span>₵{(subtotal + subtotal * 0.1).toFixed(2)}</span>
+            </div>
           </div>
 
           <div className="flex justify-between mt-6">
             <button
+              onClick={clearCart}
               className="bg-gray-200 text-gray-800 py-3 px-6 rounded-lg hover:bg-gray-300 transition"
             >
               Clear Cart

@@ -10,7 +10,7 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 const PrevArrow = ({ className, style, onClick }) => (
   <button
     type="button"
-    className={`${className} flex items-center justify-center bg-black/30 hover:bg-black transition-all duration-300 p-3 sm:p-4 rounded-full group z-20`}
+    className={`${className} flex items-center justify-center bg-black/30 hover:bg-black transition-all duration-300 p-3 sm:p-4 rounded-full group z-50`}
     style={{ ...style, display: "flex" }}
     onClick={onClick}
     aria-label="Previous"
@@ -25,7 +25,7 @@ const PrevArrow = ({ className, style, onClick }) => (
 const NextArrow = ({ className, style, onClick }) => (
   <button
     type="button"
-    className={`${className} flex items-center justify-center bg-black/30 hover:bg-black transition-all duration-300 p-3 sm:p-4 rounded-full group z-20`}
+    className={`${className} flex items-center justify-center bg-black/30 hover:bg-black transition-all duration-300 p-3 sm:p-4 rounded-full group z-50`}
     style={{ ...style, display: "flex" }}
     onClick={onClick}
     aria-label="Next"
@@ -62,12 +62,12 @@ const Hero = () => {
   };
 
   return (
-    <section id="hero" className="relative w-full overflow-hidden">
+  <section id="hero" className="relative w-full overflow-visible ">
       <Slider {...settings}>
         {/* Slide 1 */}
         <div className="w-screen">
           <div
-            className="w-full h-[420px] sm:h-[550px] lg:h-[700px] flex flex-col justify-center items-start px-5 sm:px-10 lg:px-20 bg-cover bg-center"
+            className="w-full h-[520px] sm:h-[650px] lg:h-[700px] flex flex-col justify-center items-start px-5 sm:px-10 lg:px-20 bg-cover bg-center"
             style={{ backgroundImage: `url(${Blue})` }}
           >
             <h1 className="text-primary border border-primary rounded-lg px-4 sm:px-6 py-1 sm:py-2 text-base sm:text-xl lg:text-2xl">

@@ -5,7 +5,7 @@
 /* Shared layout variables */
 :root {
   --nav-height: 64px; /* adjust if your navbar height changes */
-  --hero-offset: 24px; /* extra spacing to shift landing page down a bit */
+  --hero-offset: 0px; /* extra spacing to shift landing page down a bit (reduced to remove gap) */
   --section-gap: 0; /* vertical space between page sections - set to 0 to remove gaps */
 }
 

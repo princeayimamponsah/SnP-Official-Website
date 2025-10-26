@@ -1,6 +1,4 @@
 import Blue from "./assets/Blue.png";
-import Woven from "./assets/Woven.jpeg";
-import watch from "./assets/watch.jpg";
 import pendrive from "./assets/pendrive.jpg";
 import laptop from "./assets/laptop.jpg";
 import headset from "./assets/cat3.jpg";
@@ -12,6 +10,8 @@ import test3 from "./assets/test-3.jpg";
 import test4 from "./assets/test-4.jpg";
 import test5 from "./assets/test-5.jpg";
 import zigzag from "./assets/blue_waves_close.jpg";
+import ash_shirt from "./assets/Ash_close.jpg";
+
 
 
 export const products = [
@@ -28,7 +28,7 @@ export const products = [
     price: "GHS180.00",
   },
   {
-    img: watch,
+    img: ash_shirt,
     category: "Smart Watch",
     name: "Smart Watch",
     price: "$12.35",

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { motion as Motion, AnimatePresence } from "framer-motion";
 import AOS from "aos";
-import "aos/dist/aos.css";;
+import "aos/dist/aos.css";
+import { useCart } from "../hooks/useCart";
+import { useNavigate } from "react-router-dom"; // 🟢 Add navigation hook
 
 const products = [
-  { id: 1, name: "Sea Blue Cross", category: "shirt", gender: "male", price: 250, img: "/images/shirt1.png" },
+  { id: 1, name: "Gold Slide", category: "slippers", gender: "male", price: 250, img: "/images/slipper1.png" },
   { id: 2, name: "Comfy Sandal", category: "slippers", gender: "female", price: 220, img: "/images/slipper2.png" },
   { id: 3, name: "Classic Tee", category: "shirt", gender: "male", price: 300, img: "/images/shirt1.png" },
   { id: 4, name: "Fashion Top", category: "shirt", gender: "female", price: 280, img: "/images/shirt2.png" },
@@ -18,17 +20,12 @@ const Shop = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [addedMessage, setAddedMessage] = useState("");
 
+  const { addToCart } = useCart();
+  const navigate = useNavigate(); // 🟢 Initialize navigation
+
   useEffect(() => {
     AOS.init({ duration: 800, easing: "ease-in-out", once: true });
   }, []);
-
-  useEffect(() => {
-    AOS.refresh();
-  }, [filter, gender]);
-
-  useEffect(() => {
-    document.body.style.overflow = selectedProduct ? "hidden" : "auto";
-  }, [selectedProduct]);
 
   const filteredProducts = products.filter((product) => {
     const categoryMatch = filter === "all" || product.category === filter;
@@ -53,7 +50,7 @@ const Shop = () => {
 
   const handleAddToCart = (product) => {
     const size = selectedSize[product.id];
-    const Qty = quantity[product.id] || 1;
+    const qty = quantity[product.id] || 1;
 
     if (!size) {
       setAddedMessage("⚠️ Please select a size before adding to cart!");
@@ -61,7 +58,8 @@ const Shop = () => {
       return;
     }
 
-    setAddedMessage(`✅ ${product.name} added successfully!`);
+    addToCart({ ...product, size, quantity: qty });
+    setAddedMessage(`✅ ${product.name} added to cart!`);
     setTimeout(() => setAddedMessage(""), 2000);
   };
 
@@ -113,14 +111,14 @@ const Shop = () => {
           </div>
         </div>
 
-        {/* Added Message */}
+        {/* ✅ Added Message */}
         <AnimatePresence>
           {addedMessage && (
             <Motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="fixed top-10 left-1/2 transform -translate-x-1/2 bg-black text-white text-sm px-4 py-2 rounded-full shadow-md z-50"
+              className="fixed top-24 left-1/2 transform -translate-x-1/2 bg-black text-white text-sm px-4 py-2 rounded-full shadow-md z-50"
             >
               {addedMessage}
             </Motion.div>
@@ -139,19 +137,39 @@ const Shop = () => {
                 onClick={() => setSelectedProduct(product)}
                 className="bg-white p-5 rounded-2xl shadow-md hover:shadow-xl transition-all cursor-pointer"
               >
-                <img src={product.img} alt={product.name} className="w-full h-56 object-contain mb-4" />
+                <img
+                  src={product.img}
+                  alt={product.name}
+                  className="w-full h-56 object-contain mb-4"
+                />
                 <h3 className="text-lg font-semibold text-gray-800">{product.name}</h3>
                 <p className="text-sm text-gray-500 mb-1">
-                  {product.category === "slippers" ? "Premium handcrafted slides" : "Stylish cotton shirt"}
+                  {product.category === "slippers"
+                    ? "Premium handcrafted slides"
+                    : "Stylish cotton shirt"}
                 </p>
                 <p className="text-yellow-600 font-bold mb-2">₵{product.price}</p>
               </Motion.div>
             ))}
           </AnimatePresence>
         </Motion.div>
+
+        {/* 🟢 Custom Order Button */}
+        <div className="text-center mt-16">
+          <Motion.button
+            whileTap={{ scale: 0.95 }}
+            onClick={() => navigate("/custom-order")}
+            className="px-8 py-3 bg-gradient-to-r from-yellow-500 to-yellow-300 text-white rounded-full font-semibold shadow-lg hover:opacity-90 transition-all"
+          >
+            Create a Custom Order ✨
+          </Motion.button>
+          <p className="text-gray-500 text-sm mt-2">
+            Upload your own design or idea and let SnP bring it to life.
+          </p>
+        </div>
       </div>
 
-      {/* Product Modal */}
+      {/* Modal (Product details) */}
       <AnimatePresence>
         {selectedProduct && (
           <Motion.div
@@ -169,13 +187,17 @@ const Shop = () => {
             >
               <button
                 onClick={() => setSelectedProduct(null)}
-                className="absolute top-4 right-4 text-gray-600 hover:text-red-500 text-2xl font-bold"
+                className="absolute top-3 right-3 text-gray-600 hover:text-red-500 text-2xl font-bold"
               >
                 ✕
               </button>
 
               <div className="flex justify-center items-center">
-                <img src={selectedProduct.img} alt={selectedProduct.name} className="w-full h-80 object-contain" />
+                <img
+                  src={selectedProduct.img}
+                  alt={selectedProduct.name}
+                  className="w-full h-80 object-contain"
+                />
               </div>
 
               <div className="flex flex-col justify-center">
@@ -187,6 +209,7 @@ const Shop = () => {
                 </p>
                 <p className="text-yellow-600 font-bold text-lg mb-4">₵{selectedProduct.price}</p>
 
+                {/* Size */}
                 <div className="mb-4">
                   <p className="text-sm text-gray-600 font-medium mb-2">Select Size:</p>
                   <div className="flex flex-wrap gap-2">
@@ -194,7 +217,9 @@ const Shop = () => {
                       <Motion.button
                         key={size}
                         whileTap={{ scale: 0.9 }}
-                        onClick={() => setSelectedSize((prev) => ({ ...prev, [selectedProduct.id]: size }))}
+                        onClick={() =>
+                          setSelectedSize((prev) => ({ ...prev, [selectedProduct.id]: size }))
+                        }
                         className={`px-3 py-1 rounded-md border text-sm transition-all ${
                           selectedSize[selectedProduct.id] === size
                             ? "bg-gradient-to-r from-yellow-500 to-yellow-300 text-white border-transparent"
@@ -207,6 +232,7 @@ const Shop = () => {
                   </div>
                 </div>
 
+                {/* Quantity */}
                 <div className="flex items-center gap-3 mb-4">
                   <p className="text-sm text-gray-600 font-medium">Quantity:</p>
                   <div className="flex items-center border rounded-lg">
@@ -217,7 +243,9 @@ const Shop = () => {
                     >
                       -
                     </Motion.button>
-                    <span className="px-3 text-gray-700 font-medium">{quantity[selectedProduct.id] || 1}</span>
+                    <span className="px-3 text-gray-700 font-medium">
+                      {quantity[selectedProduct.id] || 1}
+                    </span>
                     <Motion.button
                       whileTap={{ scale: 0.8 }}
                       onClick={() => handleQuantityChange(selectedProduct.id, "increment")}
