@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import Collection from "../assets/images/Slipper Collection.jpg";
+import Collection from "../assets/images/Slipper Collection-2.webp";
 import Product2 from "../assets/images/Product2.webp";
 
 const Gallery = () => {
