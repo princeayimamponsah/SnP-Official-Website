@@ -244,10 +244,7 @@ const Checkout = () => {
           <div className="text-sm text-gray-600 mb-4">
             <p>Payment Method:</p>
             <div className="mt-2 flex flex-col space-y-1">
-              <label className="flex items-center space-x-2">
-                <input type="radio" name="payment" defaultChecked />
-                <span>Cash on Delivery</span>
-              </label>
+              
               <label className="flex items-center space-x-2">
                 <input type="radio" name="payment" />
                 <span>Pay with Mobile Money</span>

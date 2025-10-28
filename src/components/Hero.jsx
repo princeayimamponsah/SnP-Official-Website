@@ -7,6 +7,8 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
+
+
 const PrevArrow = ({ className, style, onClick }) => (
   <button
     type="button"

@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import Collection from "../assets/images/Slipper Collection.jpg";
+import Product2 from "../assets/images/Product2.webp";
 
 const Gallery = () => {
   useEffect(() => {
@@ -86,7 +88,7 @@ const Gallery = () => {
               data-aos-delay="200"
             >
               <img
-                src="/images/featured1.jpg"
+                src={Collection}
                 alt="Featured Left"
                 className="w-full h-[300px] object-cover transition-transform duration-500 group-hover:scale-105"
                 data-aos="zoom-in"
@@ -114,7 +116,7 @@ const Gallery = () => {
               data-aos-delay="200"
             >
               <img
-                src="/images/featured2.jpg"
+                src={Product2 }
                 alt="Featured Right"
                 className="w-full h-[300px] object-cover transition-transform duration-500 group-hover:scale-105"
                 data-aos="zoom-in"

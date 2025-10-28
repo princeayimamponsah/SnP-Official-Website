@@ -5,11 +5,31 @@ import "aos/dist/aos.css";
 import { useCart } from "../hooks/useCart";
 import { useNavigate } from "react-router-dom"; // 🟢 Add navigation hook
 
+
+import AshClose from "../assets/images/Ash_close.webp";
+import BlueWavesClose from "../assets/images/blue_waves_close.webp";
+import Cat1 from "../assets/images/cat1.webp";
+import RedClose from "../assets/images/red_close.webp";
+import Woven from "../assets/images/Woven.webp";
+import BlackClose from "../assets/images/black_close.webp";
+import RegBlue from "../assets/images/blue2_close.webp";
+import Cream from "../assets/images/cream.webp";
+import Green from "../assets/images/Green.webp";
+import Navy from "../assets/images/Navy.webp";
+import Navyclose from "../assets/images/Navyclose.webp";
+import Brown from "../assets/images/browncroc.webp";
+
 const products = [
-  { id: 1, name: "Gold Slide", category: "slippers", gender: "male", price: 250, img: "/images/slipper1.png" },
-  { id: 2, name: "Comfy Sandal", category: "slippers", gender: "female", price: 220, img: "/images/slipper2.png" },
-  { id: 3, name: "Classic Tee", category: "shirt", gender: "male", price: 300, img: "/images/shirt1.png" },
-  { id: 4, name: "Fashion Top", category: "shirt", gender: "female", price: 280, img: "/images/shirt2.png" },
+  { id: 1, name: "Beige Woven", category: "slippers", gender: "male", image: Woven, hoverImage: Cat1, isNew: true, price: 150, description: "Comfortable men's slippers made for everyday wear.", ratedBy: 120, rating: 4.5 },
+   { id: 2, name: "Brown Croc", category: "slippers", gender: "male", image: Brown, hoverImage: Navyclose, isNew: false, price: 140, description: "Elegant slippers combining style and comfort.", ratedBy: 110, rating: 4.2 },
+   { id: 3, name: "SnP-Red", category: "shirts", gender: "male", image: RedClose, hoverImage: RedClose, isNew: true, price: 180, description: "Trendy men's shirt with a perfect modern fit.", ratedBy: 130, rating: 4.7 },
+   { id: 4, name: "Blue-Waves", category: "shirts", gender: "male", image: BlueWavesClose, hoverImage: BlueWavesClose, isNew: false, price: 170, description: "Stylish shirt for casual and formal looks.", ratedBy: 98, rating: 4.4 },
+   { id: 5, name: "Sea Blue", category: "shirt", gender: "male", image: RegBlue, hoverImage: RegBlue, isNew: false, price: 160, description: "Classic soft texture slippers for men.", ratedBy: 150, rating: 4.5 },
+   { id: 6, name: "SnP-Black", category: "shirts", gender: "male", image: BlackClose, hoverImage: BlackClose, isNew: true, price: 200, description: "Comfortable and breathable cotton shirt.", ratedBy: 190, rating: 4.8 },
+   { id: 7, name: "SnP-Ash", category: "shirts", gender: "female", image: AshClose, hoverImage: AshClose, isNew: true, price: 200, description: "Soft, breathable women’s cotton shirt.", ratedBy: 120, rating: 4.6 },
+   { id: 8, name: "Cream", category: "slippers", gender: "male", image: Cream, hoverImage: Cream, isNew: false, price: 140, description: "Comfortable elegant slippers for men.", ratedBy: 95, rating: 4.3 },
+   { id: 9, name: "Green Croc", category: "slippers", gender: "male", image: Green, hoverImage: Green, isNew: false, price: 140, description: "Elegant green croc slippers.", ratedBy: 75, rating: 4.1 },
+   { id: 10, name: "Navy Croc", category: "slippers", gender: "male", image: Navy, hoverImage: Navyclose, isNew: false, price: 140, description: "Navy croc design for men.", ratedBy: 102, rating: 4.4 },
 ];
 
 const Shop = () => {
@@ -35,7 +55,7 @@ const Shop = () => {
 
   const getSizes = (category) => {
     if (category === "slippers") return ["39", "40", "41", "42", "43", "44", "45"];
-    if (category === "shirt") return ["S", "M", "L", "XL", "2XL"];
+    if (category === "shirts") return ["S", "M", "L", "XL", "2XL"];
     return [];
   };
 
@@ -138,9 +158,9 @@ const Shop = () => {
                 className="bg-white p-5 rounded-2xl shadow-md hover:shadow-xl transition-all cursor-pointer"
               >
                 <img
-                  src={product.img}
+                  src={product.image}
                   alt={product.name}
-                  className="w-full h-56 object-contain mb-4"
+                  className="w-full h-56 object-cover rounded-xl transition-transform duration-500 hover:scale-105" 
                 />
                 <h3 className="text-lg font-semibold text-gray-800">{product.name}</h3>
                 <p className="text-sm text-gray-500 mb-1">
@@ -183,7 +203,7 @@ const Shop = () => {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
-              className="bg-white max-w-4xl w-full rounded-2xl shadow-2xl overflow-hidden p-6 relative grid md:grid-cols-2 gap-6"
+              className="bg-white max-w-4xl w-full rounded-2xl shadow-2xl overflow-hidden p-10 relative grid md:grid-cols-2 gap-10"
             >
               <button
                 onClick={() => setSelectedProduct(null)}
@@ -194,9 +214,9 @@ const Shop = () => {
 
               <div className="flex justify-center items-center">
                 <img
-                  src={selectedProduct.img}
+                  src={selectedProduct.image}
                   alt={selectedProduct.name}
-                  className="w-full h-80 object-contain"
+                  className="w-full h-80 object-cover rounded-xl"
                 />
               </div>
 
@@ -210,23 +230,23 @@ const Shop = () => {
                 <p className="text-yellow-600 font-bold text-lg mb-4">₵{selectedProduct.price}</p>
 
                 {/* Size */}
-                <div className="mb-4">
-                  <p className="text-sm text-gray-600 font-medium mb-2">Select Size:</p>
-                  <div className="flex flex-wrap gap-2">
-                    {getSizes(selectedProduct.category).map((size) => (
-                      <Motion.button
-                        key={size}
-                        whileTap={{ scale: 0.9 }}
-                        onClick={() =>
-                          setSelectedSize((prev) => ({ ...prev, [selectedProduct.id]: size }))
-                        }
-                        className={`px-3 py-1 rounded-md border text-sm transition-all ${
-                          selectedSize[selectedProduct.id] === size
-                            ? "bg-gradient-to-r from-yellow-500 to-yellow-300 text-white border-transparent"
-                            : "bg-white border-gray-300 text-gray-700 hover:bg-yellow-100"
-                        }`}
-                      >
-                        {size}
+                <div className="mb-6">
+            <p className="text-sm text-gray-600 font-medium mb-2">Select Size:</p>
+            <div className="flex flex-wrap gap-3">
+              {getSizes(selectedProduct.category).map((size) => (
+                <Motion.button
+                  key={size}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() =>
+                    setSelectedSize((prev) => ({ ...prev, [selectedProduct.id]: size }))
+                  }
+                  className={`px-4 py-2 rounded-lg border text-sm font-semibold transition-all ${
+                    selectedSize[selectedProduct.id] === size
+                      ? "bg-gradient-to-r from-yellow-500 to-yellow-300 text-white border-transparent"
+                      : "bg-white border-gray-300 text-gray-700 hover:bg-yellow-100"
+                  }`}
+                >
+                  {size}
                       </Motion.button>
                     ))}
                   </div>

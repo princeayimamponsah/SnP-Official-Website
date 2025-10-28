@@ -1,5 +1,8 @@
 import React from "react";
 import { FaCheckCircle, FaBoxOpen, FaSmileBeam, FaHeadset } from "react-icons/fa";
+import Logo from "../assets/Logo2.png";
+
+
 
 const About = () => {
   return (
@@ -32,7 +35,7 @@ const About = () => {
             data-aos="fade-right"
           >
             <img
-              src="/about-image.jpg"
+              src= {Logo}
               alt="About SnP"
               className="rounded-lg shadow-lg mb-6 w-full object-cover"
               data-aos="zoom-in"
