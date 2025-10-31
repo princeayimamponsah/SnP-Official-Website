@@ -2,24 +2,24 @@ import React, { useEffect } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Blue from "../assets/Blue.png";
+import Blue from "../assets/Blue.png"; // ✅ use webp version if possible
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { motion } from "framer-motion";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-
-
+// Custom Prev/Next Arrows
 const PrevArrow = ({ className, style, onClick }) => (
   <button
     type="button"
-    className={`${className} flex items-center justify-center bg-black/30 hover:bg-black transition-all duration-300 p-3 sm:p-4 rounded-full group z-50`}
+    className={`${className} flex items-center justify-center bg-black/30 hover:bg-black transition-all duration-300 p-2 sm:p-3 rounded-full group z-50`}
     style={{ ...style, display: "flex" }}
     onClick={onClick}
     aria-label="Previous"
   >
     <FaChevronLeft
       className="text-white transition-all duration-300 group-hover:scale-125 group-hover:-rotate-6 group-hover:text-yellow-400"
-      size={24}
+      size={18}
     />
   </button>
 );
@@ -27,14 +27,14 @@ const PrevArrow = ({ className, style, onClick }) => (
 const NextArrow = ({ className, style, onClick }) => (
   <button
     type="button"
-    className={`${className} flex items-center justify-center bg-black/30 hover:bg-black transition-all duration-300 p-3 sm:p-4 rounded-full group z-50`}
+    className={`${className} flex items-center justify-center bg-black/30 hover:bg-black transition-all duration-300 p-2 sm:p-3 rounded-full group z-50`}
     style={{ ...style, display: "flex" }}
     onClick={onClick}
     aria-label="Next"
   >
     <FaChevronRight
       className="text-white transition-all duration-300 group-hover:scale-125 group-hover:rotate-6 group-hover:text-yellow-400"
-      size={24}
+      size={18}
     />
   </button>
 );
@@ -45,7 +45,7 @@ const Hero = () => {
       offset: 100,
       duration: 800,
       easing: "ease-in-out",
-      once: false,
+      once: true,
     });
   }, []);
 
@@ -60,84 +60,115 @@ const Hero = () => {
     arrows: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
-    adaptiveHeight: true, // adjust height automatically
+    adaptiveHeight: true,
+    lazyLoad: "ondemand",
+    responsive: [
+      {
+        breakpoint: 768, // tablets and below
+        settings: {
+          arrows: false,
+        },
+      },
+    ],
   };
 
+  const fadeUp = {
+    hidden: { opacity: 0, y: 30 },
+    show: { opacity: 1, y: 0, transition: { duration: 1 } },
+  };
+
+  const slides = [
+    {
+      title: "SnP Cross Slippers",
+      subtitle: "Get up to 25% Discounts",
+      text: "100% Trusted Fashion Store",
+      button: "Shop Now!",
+    },
+    {
+      title: "SnP Signature Shirts",
+      subtitle: "Get up to 25% Discounts",
+      text: "Be Elegant... Look Fly",
+      button: "Available Now",
+    },
+    {
+      title: "SnP 2-Piece Outfit",
+      subtitle: "Get up to 25% Discounts",
+      text: "Be Part of the SnP Family",
+      button: "Available Now!",
+    },
+  ];
+
   return (
-  <section id="hero" className="relative w-full overflow-visible ">
+    <section id="hero" className="relative w-full overflow-hidden">
       <Slider {...settings}>
-        {/* Slide 1 */}
-        <div className="w-screen">
-          <div
-            className="w-full h-[520px] sm:h-[650px] lg:h-[700px] flex flex-col justify-center items-start px-5 sm:px-10 lg:px-20 bg-cover bg-center"
-            style={{ backgroundImage: `url(${Blue})` }}
-          >
-            <h1 className="text-primary border border-primary rounded-lg px-4 sm:px-6 py-1 sm:py-2 text-base sm:text-xl lg:text-2xl">
-              Get up to 25% Discounts
-            </h1>
+        {slides.map((slide, index) => (
+          <div key={index} className="w-screen">
+            <div
+              className="relative w-full h-[400px] sm:h-[550px] md:h-[650px] lg:h-[700px] flex flex-col justify-center items-start px-4 sm:px-10 md:px-16 bg-cover bg-center"
+              style={{
+                backgroundImage: `url(${Blue})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            >
+              {/* Overlay for better text visibility */}
+              <div className="absolute inset-0 bg-black/40"></div>
 
-            <h1 className="text-white font-bold uppercase text-[36px] sm:text-[55px] md:text-[80px] lg:text-[100px] leading-[45px] sm:leading-[60px] md:leading-[85px] lg:leading-[100px] mt-3">
-              SnP <br /> Cross <br /> Slippers
-            </h1>
+              <div className="relative z-10">
+                <motion.h1
+                  variants={fadeUp}
+                  initial="hidden"
+                  animate="show"
+                  className="text-primary border border-primary rounded-lg px-3 sm:px-5 py-1 sm:py-2 text-sm sm:text-lg md:text-2xl"
+                >
+                  {slide.subtitle}
+                </motion.h1>
 
-            <p className="text-white text-base sm:text-lg md:text-xl mt-2">
-              100% Trusted{" "}
-              <span className="text-primary font-bold">Fashion Store</span>
-            </p>
+                <motion.h1
+                  variants={fadeUp}
+                  initial="hidden"
+                  animate="show"
+                  transition={{ delay: 0.2 }}
+                  className="text-white font-bold uppercase text-[30px] sm:text-[45px] md:text-[70px] lg:text-[90px] leading-tight mt-3"
+                >
+                  {slide.title.split(" ").map((word, i) => (
+                    <span key={i} className="block">
+                      {word}
+                    </span>
+                  ))}
+                </motion.h1>
 
-            <button className="mt-4 bg-primary px-5 sm:px-6 py-2 sm:py-3 rounded-lg text-black font-semibold text-sm sm:text-base hover:scale-105 transition-all duration-300">
-              Shop Now!
-            </button>
+                <motion.p
+                  variants={fadeUp}
+                  initial="hidden"
+                  animate="show"
+                  transition={{ delay: 0.4 }}
+                  className="text-white text-sm sm:text-lg md:text-xl mt-2"
+                >
+                  {slide.text.includes("Fashion") ? (
+                    <>
+                      100% Trusted{" "}
+                      <span className="text-primary font-bold">
+                        Fashion Store
+                      </span>
+                    </>
+                  ) : (
+                    slide.text
+                  )}
+                </motion.p>
+
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ type: "spring", stiffness: 200 }}
+                  className="mt-4 bg-primary px-4 sm:px-6 py-2 sm:py-3 rounded-lg text-black font-semibold text-sm sm:text-base hover:scale-105 transition-all duration-300"
+                >
+                  {slide.button}
+                </motion.button>
+              </div>
+            </div>
           </div>
-        </div>
-
-        {/* Slide 2 */}
-        <div className="w-screen">
-          <div
-            className="w-full h-[420px] sm:h-[550px] lg:h-[700px] flex flex-col justify-center items-start px-5 sm:px-10 lg:px-20 bg-cover bg-center"
-            style={{ backgroundImage: `url(${Blue})` }}
-          >
-            <h1 className="text-primary border border-primary rounded-lg px-4 sm:px-6 py-1 sm:py-2 text-base sm:text-xl lg:text-2xl">
-              Get up to 25% Discounts
-            </h1>
-
-            <h1 className="text-white font-bold uppercase text-[36px] sm:text-[55px] md:text-[80px] lg:text-[100px] leading-[45px] sm:leading-[60px] md:leading-[85px] lg:leading-[100px] mt-3">
-              SnP <br /> Signature <br /> Shirts
-            </h1>
-
-            <p className="text-white text-base sm:text-lg md:text-xl mt-2">
-              Be Elegant... <span className="text-primary font-bold">Look Fly</span>
-            </p>
-
-            <button className="mt-4 bg-primary px-5 sm:px-6 py-2 sm:py-3 rounded-lg text-black font-semibold text-sm sm:text-base hover:scale-105 transition-all duration-300">
-              Available Now
-            </button>
-          </div>
-        </div>
-
-        {/* Slide 3 */}
-        <div className="w-screen">
-          <div
-            className="w-full h-[420px] sm:h-[550px] lg:h-[700px] flex flex-col justify-center items-start px-5 sm:px-10 lg:px-20 bg-cover bg-center"
-            style={{ backgroundImage: `url(${Blue})` }}
-          >
-            <h1 className="text-primary border border-primary rounded-lg px-4 sm:px-6 py-1 sm:py-2 text-base sm:text-xl lg:text-2xl">
-              Get up to 25% Discounts
-            </h1>
-
-            <h1 className="text-white font-bold uppercase text-[36px] sm:text-[55px] md:text-[80px] lg:text-[100px] leading-[45px] sm:leading-[60px] md:leading-[85px] lg:leading-[100px] mt-3">
-              SnP <br /> 2-Piece <br /> Outfit
-            </h1>
-
-            <p className="text-white text-base sm:text-lg md:text-xl mt-2">
-              Be Part of the <span className="text-primary font-bold">SnP Family</span>
-            </p>
-
-            <button className="mt-4 bg-primary px-5 sm:px-6 py-2 sm:py-3 rounded-lg text-black font-semibold text-sm sm:text-base hover:scale-105 transition-all duration-300">
-              Available Now!
-            </button>
-          </div>
-        </div>
+        ))}
       </Slider>
     </section>
   );
