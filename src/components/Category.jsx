@@ -214,7 +214,7 @@ const Category = () => {
             exit={{ opacity: 0 }}
           >
             <Motion.div
-              className="bg-white rounded-2xl p-4 sm:p-6 max-w-3xl w-full flex flex-col md:flex-row relative shadow-2xl"
+              className="bg-white rounded-2xl p-4 sm:p-6 max-w-2xl w-full flex flex-col md:flex-row relative shadow-2xl"
               initial={{ scale: 0.85, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.85, opacity: 0 }}
